@@ -5,7 +5,9 @@ class AppPages {
 
   static const INITIAL = Routes.HOME;
 
-  static final routes = [];
+  static final routes = [
+    
+  ];
 }
 
 abstract class Routes {
