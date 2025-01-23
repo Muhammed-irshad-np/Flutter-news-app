@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:news_app/app/core/theme/app_colors.dart';
 import 'package:news_app/app/widgets/custom_app_bar.dart';
 import '../controllers/home_controller.dart';
 import 'widgets/news_card_widget.dart';
@@ -15,6 +16,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final RefreshController refreshController = RefreshController();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -38,7 +40,7 @@ class HomeView extends GetView<HomeController> {
                   },
                   onSearchQueryChanged: controller.onSearchQueryChanged,
                 ),
-
+                const SizedBox(height: 20),
                 // Scrollable content
                 Expanded(
                   child: Obx(
@@ -88,7 +90,7 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                       ),
                                       const SizedBox(width: 40),
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.center,
                                         child: Column(
                                           crossAxisAlignment:
@@ -96,16 +98,22 @@ class HomeView extends GetView<HomeController> {
                                           children: [
                                             Text(
                                               'today',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              style: theme
+                                                  .textTheme.headlineLarge
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      letterSpacing: 1,
+                                                      fontSize: 28),
                                             ),
                                             Text(
                                               'aug 13, friday',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                              ),
+                                              style: theme.textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: AppColors
+                                                          .textPrimary),
                                             ),
                                           ],
                                         ),
@@ -125,21 +133,27 @@ class HomeView extends GetView<HomeController> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'Top Headlines',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: theme.textTheme.titleLarge
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
                                         ),
                                         TextButton(
                                           onPressed: () {},
-                                          child: const Text('See all'),
+                                          child: Text(
+                                            'See all',
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-
+                                  const SizedBox(height: 12),
                                   // Carousel remains horizontal
                                   CarouselSlider.builder(
                                     itemCount:
@@ -147,73 +161,82 @@ class HomeView extends GetView<HomeController> {
                                     itemBuilder: (context, index, realIndex) {
                                       final article =
                                           controller.articles[index];
-                                      return Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // Article Image
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              child: article.urlToImage != null
-                                                  ? CachedNetworkImage(
-                                                      imageUrl:
-                                                          article.urlToImage!,
-                                                      height: 200,
-                                                      width: double.infinity,
-                                                      fit: BoxFit.cover,
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              const Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
+                                      return GestureDetector(
+                                        onTap: () => Get.toNamed(
+                                            '/article-details',
+                                            arguments: article),
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // Article Image
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: article.urlToImage !=
+                                                        null
+                                                    ? CachedNetworkImage(
+                                                        imageUrl:
+                                                            article.urlToImage!,
+                                                        height: 200,
+                                                        width: double.infinity,
+                                                        fit: BoxFit.cover,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error),
+                                                      )
+                                                    : Container(
+                                                        height: 200,
+                                                        color: Colors.grey[300],
                                                       ),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          const Icon(
-                                                              Icons.error),
-                                                    )
-                                                  : Container(
-                                                      height: 200,
-                                                      color: Colors.grey[300],
-                                                    ),
-                                            ),
+                                              ),
 
-                                            const SizedBox(height: 8),
+                                              const SizedBox(height: 8),
 
-                                            // Article Title (without maxLines constraint)
-                                            Expanded(
-                                              child: Text(
-                                                article.title ?? '',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
+                                              // Article Title (without maxLines constraint)
+                                              Expanded(
+                                                child: Text(
+                                                  article.title ?? '',
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        AppColors.textPrimary,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
 
-                                            const SizedBox(height: 4),
+                                              const SizedBox(height: 4),
 
-                                            // Article Date (Right aligned)
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
-                                                article.publishedAt != null
-                                                    ? DateFormat('MMM d, yyyy')
-                                                        .format(article
-                                                            .publishedAt!)
-                                                    : '',
-                                                style: TextStyle(
-                                                  color: Colors.grey[600],
-                                                  fontSize: 12,
+                                              // Article Date (Right aligned)
+                                              Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  article.publishedAt != null
+                                                      ? DateFormat(
+                                                              'MMM d, yyyy')
+                                                          .format(article
+                                                              .publishedAt!)
+                                                      : '',
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600],
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -228,10 +251,10 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
 
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 20),
 
                                   // All News Title
-                                  const Padding(
+                                  Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 16),
                                     child: Row(
@@ -240,14 +263,14 @@ class HomeView extends GetView<HomeController> {
                                       children: [
                                         Text(
                                           'All News',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: theme.textTheme.titleLarge
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  const SizedBox(height: 14),
 
                                   // All News List Items
                                   ...controller.articles.skip(5).map((article) {

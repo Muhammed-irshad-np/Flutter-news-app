@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/app/core/theme/app_colors.dart';
 import '../../../../data/models/article_model.dart';
 
 class NewsCardWidget extends StatelessWidget {
@@ -14,20 +15,14 @@ class NewsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => Get.toNamed('/article-details', arguments: article),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 5,
-            ),
-          ],
+          // borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,11 +30,9 @@ class NewsCardWidget extends StatelessWidget {
             // Image
             if (article.urlToImage != null)
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
                 child: CachedNetworkImage(
                   imageUrl: article.urlToImage!,
-                  height: 200,
+                  height: 160,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => const Center(
@@ -54,10 +47,16 @@ class NewsCardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    article.source?.name?.toUpperCase() ?? '',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                   // Title
                   Text(
                     article.title ?? '',
-                    style: const TextStyle(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -67,40 +66,8 @@ class NewsCardWidget extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   // Description
-                  Text(
-                    article.description ?? '',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
 
                   // Source and Date
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        article.source?.name ?? '',
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        article.publishedAt != null
-                            ? DateFormat('MMM dd, yyyy')
-                                .format(article.publishedAt!)
-                            : '',
-                        style: const TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-  
-                  ),
                 ],
               ),
             ),
