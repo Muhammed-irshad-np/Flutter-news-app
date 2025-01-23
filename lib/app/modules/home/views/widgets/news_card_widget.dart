@@ -22,12 +22,10 @@ class NewsCardWidget extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
-          // borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image
             if (article.urlToImage != null)
               ClipRRect(
                 child: CachedNetworkImage(
@@ -53,7 +51,6 @@ class NewsCardWidget extends StatelessWidget {
                       color: AppColors.textSecondary,
                     ),
                   ),
-                  // Title
                   Text(
                     article.title ?? '',
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -65,9 +62,7 @@ class NewsCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
 
-                  // Description
-
-                  // Source and Date
+              
                 ],
               ),
             ),

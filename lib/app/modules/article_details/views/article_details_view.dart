@@ -52,13 +52,11 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
                                 : Container(color: Colors.grey[300]),
                           ),
 
-                          // Content
                           Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Source and Date
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -92,7 +90,6 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
                                 ),
                                 const SizedBox(height: 16),
 
-                                // Author
                                 if (article.author != null) ...[
                                   Text(
                                     'By ${article.author}',
@@ -104,7 +101,6 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
                                   const SizedBox(height: 16),
                                 ],
 
-                                // Content
                                 Text(
                                   article.content ?? article.description ?? '',
                                   style: const TextStyle(
@@ -113,23 +109,6 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
                                   ),
                                 ),
                                 const SizedBox(height: 24),
-
-                                // Read More Button
-                                // Center(
-                                //   child: ElevatedButton(
-                                //     onPressed: controller.openArticleUrl,
-                                //     style: ElevatedButton.styleFrom(
-                                //       padding: const EdgeInsets.symmetric(
-                                //         horizontal: 32,
-                                //         vertical: 16,
-                                //       ),
-                                //       shape: RoundedRectangleBorder(
-                                //         borderRadius: BorderRadius.circular(30),
-                                //       ),
-                                //     ),
-                                //     child: const Text('Read Full Article'),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),

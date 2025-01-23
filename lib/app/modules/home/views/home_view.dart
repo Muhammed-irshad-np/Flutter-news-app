@@ -5,7 +5,6 @@ import 'package:news_app/app/core/theme/app_colors.dart';
 import 'package:news_app/app/widgets/custom_app_bar.dart';
 import '../controllers/home_controller.dart';
 import 'widgets/news_card_widget.dart';
-import 'widgets/search_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,26 +27,20 @@ class HomeView extends GetView<HomeController> {
           body: SafeArea(
             child: Column(
               children: [
-                // Custom App Bar
                 CustomAppBar(
                   showBackButton: true,
                   showSearchButton: true,
-                  onBackPressed: () {
-                    // Handle back press
-                  },
-                  onSearchPressed: () {
-                    // Handle search press
-                  },
+                  onBackPressed: () {},
+                  onSearchPressed: () {},
                   onSearchQueryChanged: controller.onSearchQueryChanged,
                 ),
                 const SizedBox(height: 20),
-                // Scrollable content
                 Expanded(
                   child: Obx(
                     () => SmartRefresher(
                       controller: refreshController,
                       enablePullDown: true,
-                      enablePullUp: true,
+                      enablePullUp: controller.hasMore.value,
                       onRefresh: () async {
                         await controller.refreshNews();
                         refreshController.refreshCompleted();
@@ -65,7 +58,6 @@ class HomeView extends GetView<HomeController> {
                           ? const Center(child: CircularProgressIndicator())
                           : ListView(
                               children: [
-                                // Today's Date
                                 Padding(
                                   padding: const EdgeInsets.only(right: 18),
                                   child: Row(
@@ -122,10 +114,7 @@ class HomeView extends GetView<HomeController> {
                                     ],
                                   ),
                                 ),
-
-                                // Top Headlines Section
                                 if (controller.articles.isNotEmpty) ...[
-                                  // Top Headlines Title
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
@@ -154,7 +143,6 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
                                   const SizedBox(height: 12),
-                                  // Carousel remains horizontal
                                   CarouselSlider.builder(
                                     itemCount:
                                         controller.articles.take(5).length,
@@ -218,7 +206,6 @@ class HomeView extends GetView<HomeController> {
 
                                               const SizedBox(height: 4),
 
-                                              // Article Date (Right aligned)
                                               Align(
                                                 alignment:
                                                     Alignment.centerRight,
@@ -250,10 +237,7 @@ class HomeView extends GetView<HomeController> {
                                           const Duration(seconds: 5),
                                     ),
                                   ),
-
                                   const SizedBox(height: 20),
-
-                                  // All News Title
                                   Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 16),
@@ -271,11 +255,18 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
                                   const SizedBox(height: 14),
-
-                                  // All News List Items
                                   ...controller.articles.skip(5).map((article) {
                                     return NewsCardWidget(article: article);
                                   }).toList(),
+                                ],
+                                if (controller.hasMore.value == false &&
+                                    controller.isLoading.value == false) ...[
+                                  const Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: const Center(
+                                        child:
+                                            Text('No more articles to load')),
+                                  ),
                                 ],
                               ],
                             ),

@@ -7,7 +7,7 @@ class HomeController extends GetxController {
 
   HomeController({required this.newsRepository});
 
-  // Observable variables
+  
   final RxList<Article> articles = <Article>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool hasMore = true.obs;
@@ -32,6 +32,7 @@ class HomeController extends GetxController {
 
     try {
       isLoading.value = true;
+
       final newArticles = await newsRepository.getTopHeadlines(
         page: currentPage.value,
       );

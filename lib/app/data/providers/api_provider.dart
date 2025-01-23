@@ -6,13 +6,11 @@ class ApiProvider extends GetConnect {
   void onInit() {
     httpClient.baseUrl = ApiConstants.baseUrl;
 
-    // Add default headers
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers['Authorization'] = 'Bearer ${ApiConstants.apiKey}';
       return request;
     });
 
-    // Add response modifier for error handling
     httpClient.addResponseModifier((request, response) {
       return response;
     });
@@ -25,7 +23,7 @@ class ApiProvider extends GetConnect {
     String country = ApiConstants.defaultCountry,
   }) async {
     return get(
-      ApiConstants.topHeadlines,
+      Endpoints.topHeadlines,
       query: {
         'country': country,
         'page': page.toString(),
@@ -39,7 +37,8 @@ class ApiProvider extends GetConnect {
     int page = 1,
   }) async {
     return get(
-      ApiConstants.everything,
+
+      Endpoints.everything,
       query: {
         'q': query,
         'page': page.toString(),
