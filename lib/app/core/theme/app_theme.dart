@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'app_colors.dart';
 
 class AppTheme {
@@ -19,6 +20,7 @@ class AppTheme {
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
+        
         ),
         textTheme: const TextTheme(
           headlineLarge: TextStyle(
