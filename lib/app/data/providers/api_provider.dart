@@ -37,7 +37,6 @@ class ApiProvider extends GetConnect {
     int page = 1,
   }) async {
     return get(
-
       Endpoints.everything,
       query: {
         'q': query,

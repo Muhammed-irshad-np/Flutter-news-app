@@ -33,7 +33,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
       child: Row(
         children: [
-          // Left side - Back button
           if (widget.showBackButton)
             IconButton(
               icon: const Icon(
@@ -48,10 +47,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           else
             const SizedBox(width: 48),
 
-          // Title or empty space when search is not active
           if (!_showSearchField) const Expanded(child: SizedBox()),
 
-          // Search field
           if (_showSearchField)
             Expanded(
               child: TextField(
@@ -66,7 +63,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ),
             ),
 
-          // Right side - Search button
           if (widget.showSearchButton)
             IconButton(
               icon: Icon(

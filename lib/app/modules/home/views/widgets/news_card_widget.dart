@@ -19,7 +19,7 @@ class NewsCardWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => Get.toNamed('/article-details', arguments: article),
-      child: Container( 
+      child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -45,12 +45,18 @@ class NewsCardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
                   Text(
                     article.source?.name?.toUpperCase() ?? '',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: AppColors.textSecondary,
                       fontSize: 12.sp,
                     ),
+                  ),
+                  SizedBox(
+                    height: 8.h,
                   ),
                   Text(
                     article.title ?? '',
