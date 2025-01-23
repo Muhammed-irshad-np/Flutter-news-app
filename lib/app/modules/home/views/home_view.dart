@@ -9,6 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -97,17 +98,17 @@ class HomeView extends GetView<HomeController> {
   Widget _buildDateHeader(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(right: 18),
+      padding: EdgeInsets.only(right: 18.w),
       child: Row(
         children: [
           Expanded(
             child: Stack(
               alignment: Alignment.centerRight,
               children: [
-                Container(height: 2, color: Colors.black),
+                Container(height: 2.h, color: Colors.black),
                 Container(
-                  width: 6,
-                  height: 6,
+                  width: 6.w,
+                  height: 6.h,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
@@ -116,7 +117,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
-          const SizedBox(width: 40),
+          SizedBox(width: 40.w),
           _buildDateText(theme),
           const Expanded(child: SizedBox()),
         ],
@@ -135,7 +136,7 @@ class HomeView extends GetView<HomeController> {
             style: theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
-              fontSize: 28,
+              fontSize: 28.sp,
             ),
           ),
           Text(
@@ -183,7 +184,7 @@ class HomeView extends GetView<HomeController> {
       itemBuilder: (context, index, realIndex) =>
           _buildCarouselItem(controller.articles[index]),
       options: CarouselOptions(
-        height: 280,
+        height: 280.h,
         viewportFraction: 0.9,
         enlargeCenterPage: true,
         enableInfiniteScroll: true,
@@ -214,11 +215,11 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildArticleImage(dynamic article) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12.r),
       child: article.urlToImage != null
           ? CachedNetworkImage(
               imageUrl: article.urlToImage!,
-              height: 200,
+              height: 200.h,
               width: double.infinity,
               fit: BoxFit.cover,
               placeholder: (context, url) => const Center(
@@ -227,7 +228,7 @@ class HomeView extends GetView<HomeController> {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             )
           : Container(
-              height: 200,
+              height: 200.h,
               color: Colors.grey[300],
             ),
     );
@@ -237,8 +238,8 @@ class HomeView extends GetView<HomeController> {
     return Expanded(
       child: Text(
         article.title ?? '',
-        style: const TextStyle(
-          fontSize: 20,
+        style: TextStyle(
+          fontSize: 20.sp,
           fontWeight: FontWeight.bold,
           color: AppColors.textPrimary,
         ),

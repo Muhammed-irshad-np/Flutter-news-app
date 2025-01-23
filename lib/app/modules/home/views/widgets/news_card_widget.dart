@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/app/core/theme/app_colors.dart';
 import '../../../../data/models/article_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsCardWidget extends StatelessWidget {
   final Article article;
@@ -18,8 +19,8 @@ class NewsCardWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => Get.toNamed('/article-details', arguments: article),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container( 
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: Colors.white,
         ),
@@ -30,7 +31,7 @@ class NewsCardWidget extends StatelessWidget {
               ClipRRect(
                 child: CachedNetworkImage(
                   imageUrl: article.urlToImage!,
-                  height: 160,
+                  height: 160.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => const Center(
@@ -39,9 +40,8 @@ class NewsCardWidget extends StatelessWidget {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
-
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,20 +49,19 @@ class NewsCardWidget extends StatelessWidget {
                     article.source?.name?.toUpperCase() ?? '',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: AppColors.textSecondary,
+                      fontSize: 12.sp,
                     ),
                   ),
                   Text(
                     article.title ?? '',
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
-
-              
+                  SizedBox(height: 8.h),
                 ],
               ),
             ),

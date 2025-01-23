@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/article_details_controller.dart';
 import 'package:news_app/app/widgets/custom_app_bar.dart';
 
@@ -46,7 +46,7 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
 
   Widget _buildAppBar() {
     return CustomAppBar(
-      showBackButton: false,
+      showBackButton: true,
       showSearchButton: false,
       onBackPressed: () => Get.back(),
     );
@@ -54,7 +54,7 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
 
   Widget _buildArticleImage(dynamic article) {
     return SizedBox(
-      height: 240,
+      height: 240.h,
       width: double.infinity,
       child: article.urlToImage != null
           ? CachedNetworkImage(
@@ -71,19 +71,19 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
 
   Widget _buildArticleContent(BuildContext context, dynamic article) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           if (article.author != null) ...[
             _buildAuthorChip(context, article),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
           ],
           _buildTitle(context, article),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           _buildBody(context, article),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
         ],
       ),
     );
@@ -91,14 +91,16 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
 
   Widget _buildAuthorChip(BuildContext context, dynamic article) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
         article.author ?? '',
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(),
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              fontSize: 14.sp,
+            ),
       ),
     );
   }
@@ -108,7 +110,7 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
       article.title ?? '',
       style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontWeight: FontWeight.bold,
-            fontSize: 28,
+            fontSize: 28.sp,
           ),
     );
   }
@@ -117,7 +119,7 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
     return Text(
       article.content ?? article.description ?? '',
       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            fontSize: 16,
+            fontSize: 16.sp,
             height: 1.6,
           ),
     );
