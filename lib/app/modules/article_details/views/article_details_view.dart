@@ -12,114 +12,114 @@ class ArticleDetailsView extends GetView<ArticleDetailsController> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xFF2D3B48),
-          statusBarIconBrightness: Brightness.light,
-        ),
-        child: Scaffold(
-          body: Obx(() {
-            final article = controller.article.value;
-            if (article == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            return SafeArea(
-              child: Column(
-                children: [
-                  CustomAppBar(
-                    showBackButton: true,
-                    showSearchButton: true,
-                    onBackPressed: () => Get.back(),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // Article Image
-                          SizedBox(
-                            height: 300,
-                            width: double.infinity,
-                            child: article.urlToImage != null
-                                ? CachedNetworkImage(
-                                    imageUrl: article.urlToImage!,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  )
-                                : Container(color: Colors.grey[300]),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      article.source?.name ?? '',
-                                      style: const TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Text(
-                                      article.publishedAt != null
-                                          ? DateFormat('MMM dd, yyyy')
-                                              .format(article.publishedAt!)
-                                          : '',
-                                      style:
-                                          const TextStyle(color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-
-                                // Title
-                                Text(
-                                  article.title ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-
-                                if (article.author != null) ...[
-                                  Text(
-                                    'By ${article.author}',
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                ],
-
-                                Text(
-                                  article.content ?? article.description ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    height: 1.6,
-                                  ),
-                                ),
-                                const SizedBox(height: 24),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Color(0xFF2D3B48),
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        body: Obx(() {
+          final article = controller.article.value;
+          if (article == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SafeArea(
+            child: Column(
+              children: [
+                _buildAppBar(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildArticleImage(article),
+                        _buildArticleContent(context, article),
+                      ],
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return CustomAppBar(
+      showBackButton: false,
+      showSearchButton: false,
+      onBackPressed: () => Get.back(),
+    );
+  }
+
+  Widget _buildArticleImage(dynamic article) {
+    return SizedBox(
+      height: 240,
+      width: double.infinity,
+      child: article.urlToImage != null
+          ? CachedNetworkImage(
+              imageUrl: article.urlToImage!,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
               ),
-            );
-          }),
-        ));
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            )
+          : Container(color: Colors.grey[300]),
+    );
+  }
+
+  Widget _buildArticleContent(BuildContext context, dynamic article) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          if (article.author != null) ...[
+            _buildAuthorChip(context, article),
+            const SizedBox(height: 16),
+          ],
+          _buildTitle(context, article),
+          const SizedBox(height: 16),
+          _buildBody(context, article),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAuthorChip(BuildContext context, dynamic article) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        article.author ?? '',
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(),
+      ),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, dynamic article) {
+    return Text(
+      article.title ?? '',
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+          ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, dynamic article) {
+    return Text(
+      article.content ?? article.description ?? '',
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            fontSize: 16,
+            height: 1.6,
+          ),
+    );
   }
 }

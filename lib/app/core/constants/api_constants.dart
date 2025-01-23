@@ -1,7 +1,7 @@
 class ApiConstants {
   static const String baseUrl = 'https://newsapi.org/v2';
   static const String apiKey =
-      '5b7ca6ac3bc74ffcae36be5312118240'; // Replace with your API key
+      '0789daaf7d414222807757914e66f2f5'; // Replace with your API key
 
   // Endpoints
 
